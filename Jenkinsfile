@@ -5,9 +5,9 @@ pipeline {
 	}
 	
 	environment {
-		PROJECT_ID = 'jenkins-296812'
-                CLUSTER_NAME = 'k8s-cluster'
-                LOCATION = 'us-central1-c'
+		PROJECT_ID = 'organic-acronym-332616'
+                CLUSTER_NAME = 'testcluster'
+                LOCATION = 'asia-southeast1-a'
                 CREDENTIALS_ID = 'kubernetes'		
 	}
 	
@@ -45,7 +45,7 @@ pipeline {
 			    script {
 				    echo "Push Docker Image"
 				    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-            				sh "docker login -u ameintu -p ${dockerhub}"
+            				sh 'docker login -u ameintu -p ${dockerhub}'
 				    }
 				        myimage.push("${env.BUILD_ID}")
 				    
@@ -58,8 +58,8 @@ pipeline {
 			    echo "Deployment started ..."
 			    sh 'ls -ltr'
 			    sh 'pwd'
-			    sh "sed -i 's/tagversion/${env.BUILD_ID}/g' serviceLB.yaml"
-				sh "sed -i 's/tagversion/${env.BUILD_ID}/g' deployment.yaml"
+			    sh 'sed -i "s/tagversion/${env.BUILD_ID}/g' serviceLB.yaml"
+				sh 'sed -i "s/tagversion/${env.BUILD_ID}/g' deployment.yaml"
 			    echo "Start deployment of serviceLB.yaml"
 			    step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'serviceLB.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
 				echo "Start deployment of deployment.yaml"
