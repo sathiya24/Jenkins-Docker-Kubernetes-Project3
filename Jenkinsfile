@@ -5,9 +5,9 @@ pipeline {
 	}
 	
 	environment {
-		PROJECT_ID = 'jenkins-296812'
-                CLUSTER_NAME = 'k8s-cluster'
-                LOCATION = 'us-central1-c'
+		PROJECT_ID = 'organic-acronym-332616'
+                CLUSTER_NAME = 'testcluster'
+                LOCATION = 'asia-southeast1-a'
                 CREDENTIALS_ID = 'kubernetes'		
 	}
 	
@@ -35,7 +35,7 @@ pipeline {
 		    steps {
 			    sh 'whoami'
 			    script {
-				    myimage = docker.build("ameintu/devops:${env.BUILD_ID}")
+				    myimage = docker.build("sathiyasekar/devops:${env.BUILD_ID}")
 			    }
 		    }
 	    }
